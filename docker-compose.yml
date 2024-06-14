@@ -1,12 +1,19 @@
-version: '3'
 services:
-  postgres:
-    image: postgres:16.3
+  db:
+    image: postgres:latest
     restart: always
+    environment:
+      POSTGRES_PASSWORD: jnhbgvfc
+      POSTGRES_DB: tasty-recipe
+      POSTGRES_USER: postgres
     ports:
-      - '5430:5432'
+      - 5432:5432
+    networks:
+      - postgresql
+    volumes:
+      - postgresql-volume:/postgres
 
+networks:
+  postgresql:
 volumes:
-  postgres:
-    driver: local
-
+  postgresql-volume:

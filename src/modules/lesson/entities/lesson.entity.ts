@@ -1,5 +1,6 @@
 import { BaseEntity } from "src/common/entities/base.entity";
-import { Column, Entity } from "typeorm";
+import { Program } from "src/modules/program/entities/program.entity";
+import { Column, Entity, ManyToOne } from "typeorm";
 
 @Entity({ name: 'lessons' })
 export class Lesson extends BaseEntity {
@@ -7,10 +8,11 @@ export class Lesson extends BaseEntity {
   name!: string;
 
   @Column({ nullable: true, type: 'varchar' })
-  description!: string; 
+  description!: string;
 
   @Column({ nullable: true, type: 'varchar' })
   videoUrl!: string;
 
-  
+  @ManyToOne(() => Program)
+  program: Program;
 }
