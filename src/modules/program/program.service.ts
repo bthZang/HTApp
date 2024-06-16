@@ -12,8 +12,8 @@ export class ProgramService {
     private readonly programRepo: Repository<Program>,
   ) {}
 
-  create(createProgramDto: CreateProgramDto) {
-    return this.programRepo.save(createProgramDto);
+  async create(createProgramDto: CreateProgramDto) {
+    return await this.programRepo.save(createProgramDto);
   }
 
   findAll() {
@@ -28,7 +28,7 @@ export class ProgramService {
     return `This action updates a #${id} program`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} program`;
+  remove(id: string) {
+    return this.programRepo.softDelete({ id });
   }
 }

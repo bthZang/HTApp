@@ -24,7 +24,7 @@ export class Program extends BaseEntity {
   preparation!: string; //chuan bi gi truoc khi vao khoa hoc
 
 
-  @OneToMany(() => Lesson, (lesson) => lesson.program)
+  @OneToMany(() => Lesson, (lesson) => lesson.program, {cascade: true})
   lessons: Lesson[];
 
   @ManyToOne(() => Instructor)

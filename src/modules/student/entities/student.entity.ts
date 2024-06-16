@@ -1,8 +1,8 @@
 import { CommentEntity } from "src/modules/comment/entities/comment.entity";
 import { Lesson } from "src/modules/lesson/entities/lesson.entity";
-import { OfflineClass } from "src/modules/offline-class/entities/offline-class.entity";
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from "typeorm";
 import { BaseEntity } from 'src/common/entities/base.entity';
+import { StudentLesson } from "src/student-lesson/entities/studentLesson.entity";
 
 @Entity({ name: 'students' })
 export class Student extends BaseEntity {
@@ -13,10 +13,12 @@ export class Student extends BaseEntity {
   @JoinTable()
   lessons: Lesson[];
 
-  @ManyToMany(() => OfflineClass, (offlineClass) => offlineClass.students)
+  @ManyToMany(() => CommentEntity, (comment) => comment.students)
   @JoinTable()
-  offlineClasses: OfflineClass[];
-
-  @OneToMany(() => CommentEntity, (comment) => comment.student)
   comments: CommentEntity[];
+
+  @OneToMany(() => StudentLesson, (studentLesson) => studentLesson.student, {
+    cascade: true,
+  })
+  studentLessons: StudentLesson[];
 }

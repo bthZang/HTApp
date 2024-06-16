@@ -5,16 +5,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProgramModule } from './modules/program/program.module';
 import { LessonModule } from './modules/lesson/lesson.module';
-import { OfflineClassModule } from './modules/offline-class/offline-class.module';
 import { InstructorModule } from './modules/instructor/instructor.module';
 import { StudentModule } from './modules/student/student.module';
 import { CommentModule } from './modules/comment/comment.module';
+import { StudentLessonModule } from './student-lesson/student-lesson.module';
 
 @Module({
   imports: [
     ProgramModule,
     LessonModule,
-    OfflineClassModule,
     CommentModule,
     InstructorModule,
     StudentModule,
@@ -36,6 +35,7 @@ import { CommentModule } from './modules/comment/comment.module';
         autoLoadEntities: true,
       }),
     }),
+    StudentLessonModule,
   ],
   controllers: [AppController],
   providers: [AppService],

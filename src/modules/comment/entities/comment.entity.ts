@@ -9,11 +9,13 @@ export class CommentEntity extends BaseEntity {
   @Column({ nullable: true, type: 'varchar' })
   content!: string;
 
-  @ManyToOne(() => Instructor)
-  instructor: Instructor;
+  @ManyToMany(() => Instructor, (instructor) => instructor.comments, {
+    cascade: true,
+  })
+  instructors: Instructor[];
 
-  @ManyToOne(() => Student)
-  student: Student;
+  @ManyToMany(() => Student, (student) => student.comments, { cascade: true })
+  students: Student[];
 
   @ManyToOne(() => Lesson)
   lesson: Lesson;

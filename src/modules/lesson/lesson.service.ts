@@ -1,11 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLessonDto } from './dto/create-lesson.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Lesson } from './entities/lesson.entity';
 
 @Injectable()
 export class LessonService {
-  create(createLessonDto: CreateLessonDto) {
-    return 'This action adds a new lesson';
+  constructor(
+    @InjectRepository(Lesson)
+    private readonly lessonRepo: Repository<Lesson>,
+  ) {}
+
+  async create(createLessonDto: CreateLessonDto) {
+    return await this.lessonRepo.save(createLessonDto);
   }
 
   findAll() {
