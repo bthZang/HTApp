@@ -25,6 +25,9 @@ export class Lesson extends BaseEntity {
   @Column({ nullable: true, type: 'timestamp without time zone' })
   endDate!: Date; //for off class
 
+  @Column({ nullable: true, type: 'varchar' })
+  programId!: string;
+
   @ManyToOne(() => Program)
   program: Program;
 
