@@ -10,7 +10,6 @@ import { InstructorModule } from './modules/instructor/instructor.module';
 import { StudentModule } from './modules/student/student.module';
 import { CommentModule } from './modules/comment/comment.module';
 
-
 @Module({
   imports: [
     ProgramModule,
@@ -19,6 +18,10 @@ import { CommentModule } from './modules/comment/comment.module';
     CommentModule,
     InstructorModule,
     StudentModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -26,8 +29,8 @@ import { CommentModule } from './modules/comment/comment.module';
         type: 'postgres',
         host: configService.get<string>('MAIN_DB_HOST'),
         port: parseInt(configService.get<string>('MAIN_DB_PORT')),
-        username: 'postgres',
-        password: 'jnhbgvfc',
+        username: configService.get<string>('MAIN_DB_USERNAME'),
+        password: configService.get<string>('MAIN_DB_PASSWORD'),
         database: configService.get<string>('MAIN_DB_NAME'),
         synchronize: true,
         autoLoadEntities: true,
