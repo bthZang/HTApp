@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/common/entities/base.entity';
 import { Instructor } from 'src/modules/instructor/entities/instructor.entity';
+import { Lesson } from 'src/modules/lesson/entities/lesson.entity';
 import { Student } from 'src/modules/student/entities/student.entity';
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
 
@@ -13,4 +14,7 @@ export class CommentEntity extends BaseEntity {
 
   @ManyToOne(() => Student)
   student: Student;
+
+  @ManyToOne(() => Lesson)
+  lesson: Lesson;
 }

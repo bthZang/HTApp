@@ -1,7 +1,6 @@
 import { BaseEntity } from "src/common/entities/base.entity";
 import { Instructor } from "src/modules/instructor/entities/instructor.entity";
 import { Lesson } from "src/modules/lesson/entities/lesson.entity";
-import { Student } from "src/modules/student/entities/student.entity";
 import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from "typeorm";
 
 @Entity({ name: 'programs' })
@@ -10,7 +9,7 @@ export class Program extends BaseEntity {
   name!: string;
 
   @Column({ nullable: true, type: 'varchar' })
-  level!: string;
+  level!: string; //enum
 
   @Column({ nullable: true, type: 'varchar' })
   category!: string;
@@ -24,8 +23,6 @@ export class Program extends BaseEntity {
   @Column({ nullable: true, type: 'varchar' })
   preparation!: string; //chuan bi gi truoc khi vao khoa hoc
 
-  @ManyToMany(() => Student, (student) => student.programs)
-  students: Student[];
 
   @OneToMany(() => Lesson, (lesson) => lesson.program)
   lessons: Lesson[];
