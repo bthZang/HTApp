@@ -35,6 +35,13 @@ export class LessonService {
     });
   }
 
+  findOwn(studentId: string) {
+    return this.lessonRepo.find({
+      where: { studentLessons: { student: { id: studentId } } },
+      relations: { program: true },
+    });
+  }
+
   findOne(id: string) {
     return this.lessonRepo.findOne({
       where: { id },

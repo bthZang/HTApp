@@ -55,6 +55,12 @@ export class LessonController {
     return this.lessonService.findAll(keyword);
   }
 
+  @Get('own')
+  @UseGuards(JwtStudentAuthGuard)
+  findOwn(@Request() request: AuthenticatedStudentRequest) {
+    return this.lessonService.findOwn(request.user.id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.lessonService.findOne(id);
