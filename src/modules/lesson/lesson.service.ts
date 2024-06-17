@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateLessonDto } from './dto/create-lesson.dto';
-import { UpdateLessonDto } from './dto/update-lesson.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Lesson } from './entities/lesson.entity';
+import { ILike, Repository } from 'typeorm';
+import { CreateLessonDto } from './dto/create-lesson.dto';
 import { CreateOffClassDto } from './dto/update-lesson-create-offclass.dto';
+import { UpdateLessonDto } from './dto/update-lesson.dto';
+import { Lesson } from './entities/lesson.entity';
 
 @Injectable()
 export class LessonService {
@@ -25,12 +25,22 @@ export class LessonService {
     return await this.lessonRepo.save(lesson);
   }
 
-  findAll() {
-    return this.lessonRepo.find();
+  findAll(keyword: string) {
+    return this.lessonRepo.find({
+      where: { name: ILike(`%${keyword || ''}%`) },
+      relations: { program: true },
+    });
   }
 
   findOne(id: string) {
-    return this.lessonRepo.findOneBy({ id });
+    return this.lessonRepo.findOne({
+      where: { id },
+      relations: {
+        program: true,
+        comments: true,
+        studentLessons: true,
+      },
+    });
   }
 
   async update(id: string, updateLessonDto: UpdateLessonDto) {

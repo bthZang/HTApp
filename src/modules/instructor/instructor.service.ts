@@ -18,7 +18,7 @@ export class InstructorService {
 
   findAll(keyword: string) {
     return this.instructorRepo.find({
-      where: { name: ILike(`%${keyword}%`) },
+      where: { name: ILike(`%${keyword || ''}%`) },
       relations: {},
     });
   }

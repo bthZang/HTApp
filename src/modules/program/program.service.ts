@@ -18,7 +18,7 @@ export class ProgramService {
 
   findAll(keyword: string) {
     return this.programRepo.find({
-      where: { name: ILike(`%${keyword}%`) },
+      where: { name: ILike(`%${keyword || ''}%`) },
       relations: {
         instructor: true,
         lessons: true,
