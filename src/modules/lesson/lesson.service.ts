@@ -26,15 +26,19 @@ export class LessonService {
   }
 
   findAll() {
-    return `This action returns all lesson`;
+    return this.lessonRepo.find();
   }
 
   findOne(id: string) {
     return this.lessonRepo.findOneBy({ id });
   }
 
-  update(id: number, updateLessonDto: UpdateLessonDto) {
-    return `This action updates a #${id} lesson`;
+  async update(id: string, updateLessonDto: UpdateLessonDto) {
+    const lesson = await this.lessonRepo.findOne({
+      where: { id },
+    });
+    Object.assign(lesson, updateLessonDto);
+    return await this.lessonRepo.save(lesson);
   }
 
   remove(id: string) {

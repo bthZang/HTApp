@@ -31,7 +31,7 @@ export class LessonController {
     return this.lessonService.findOne(id);
   }
 
-  @Patch(':id')
+  @Patch('/offclass/:id')
   createOffClass(
     @Param('id') id: string,
     @Body() createOffClassDto: CreateOffClassDto,
@@ -41,7 +41,7 @@ export class LessonController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateLessonDto: UpdateLessonDto) {
-    return this.lessonService.update(+id, updateLessonDto);
+    return this.lessonService.update(id, updateLessonDto);
   }
 
   @Delete(':id')
