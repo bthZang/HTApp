@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
 import { CreateInstructorDto } from './dto/create-instructor.dto';
@@ -12,7 +12,12 @@ export class InstructorService {
     private readonly instructorRepo: Repository<Instructor>,
   ) {}
 
-  create(createInstructorDto: CreateInstructorDto) {
+  async create(createInstructorDto: CreateInstructorDto) {
+    const instructor = await this.instructorRepo.findOneBy({
+      username: createInstructorDto.username,
+    });
+    if (instructor)
+      throw new BadRequestException('Instructor with this username existed');
     return this.instructorRepo.save(createInstructorDto);
   }
 
@@ -28,6 +33,10 @@ export class InstructorService {
       where: { id },
       relations: {},
     });
+  }
+
+  findByUsername(username: string) {
+    return this.instructorRepo.findOneBy({ username });
   }
 
   async update(id: string, updateInstructorDto: UpdateInstructorDto) {

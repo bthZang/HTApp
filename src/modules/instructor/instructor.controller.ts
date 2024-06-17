@@ -11,13 +11,18 @@ import {
 import { CreateInstructorDto } from './dto/create-instructor.dto';
 import { UpdateInstructorDto } from './dto/update-instructor.dto';
 import { InstructorService } from './instructor.service';
+import * as bcrypt from 'bcrypt';
 
 @Controller('instructor')
 export class InstructorController {
   constructor(private readonly instructorService: InstructorService) {}
 
   @Post()
-  create(@Body() createInstructorDto: CreateInstructorDto) {
+  async create(@Body() createInstructorDto: CreateInstructorDto) {
+    createInstructorDto.password = await bcrypt.hash(
+      createInstructorDto.password,
+      0,
+    );
     return this.instructorService.create(createInstructorDto);
   }
 
