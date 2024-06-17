@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ILike, Repository } from 'typeorm';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
+import { Student } from './entities/student.entity';
 
 @Injectable()
 export class StudentService {
+  constructor(
+    @InjectRepository(Student)
+    private readonly studentRepo: Repository<Student>,
+  ) {}
+
   create(createStudentDto: CreateStudentDto) {
-    return 'This action adds a new student';
+    return this.studentRepo.save(createStudentDto);
   }
 
-  findAll() {
-    return `This action returns all student`;
+  findAll(keyword: string | null) {
+    return this.studentRepo.find({
+      where: { name: ILike(`%${keyword || ''}%`) },
+      relations: {},
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+  findOne(id: string) {
+    return this.studentRepo.findOne({
+      where: { id },
+      relations: {
+        studentLessons: {
+          lesson: true,
+        },
+      },
+    });
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
+  async update(id: string, updateStudentDto: UpdateStudentDto) {
+    const student = await this.studentRepo.findOneBy({ id });
+    Object.assign(student, updateStudentDto);
+    return this.studentRepo.save(student);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} student`;
+  remove(id: string) {
+    return this.studentRepo.softDelete({ id });
   }
 }
