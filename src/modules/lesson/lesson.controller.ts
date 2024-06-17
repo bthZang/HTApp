@@ -32,7 +32,7 @@ export class LessonController {
     return this.lessonService.findOne(id);
   }
 
-  @Patch('/offclass/:id')
+  @Post('/:id/offclass')
   createOffClass(
     @Param('id') id: string,
     @Body() createOffClassDto: CreateOffClassDto,
