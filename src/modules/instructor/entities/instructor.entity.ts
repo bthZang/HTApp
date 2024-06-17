@@ -1,7 +1,7 @@
-import { BaseEntity } from "src/common/entities/base.entity";
-import { Program } from "src/modules/program/entities/program.entity";
+import { BaseEntity } from 'src/common/entities/base.entity';
+import { Program } from 'src/modules/program/entities/program.entity';
 import { CommentEntity } from 'src/modules/comment/entities/comment.entity';
-import { Column, Entity, JoinTable, ManyToMany, OneToMany } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 
 @Entity({ name: 'instructors' })
 export class Instructor extends BaseEntity {

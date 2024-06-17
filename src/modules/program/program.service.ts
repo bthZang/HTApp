@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ILike, Repository } from 'typeorm';
 import { CreateProgramDto } from './dto/create-program.dto';
 import { UpdateProgramDto } from './dto/update-program.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Program } from './entities/program.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProgramService {
@@ -16,16 +16,30 @@ export class ProgramService {
     return await this.programRepo.save(createProgramDto);
   }
 
-  findAll() {
-    return `This action returns all program`;
+  findAll(keyword: string) {
+    return this.programRepo.find({
+      where: { name: ILike(keyword) },
+      relations: {
+        instructor: true,
+        lessons: true,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} program`;
+  findOne(id: string) {
+    return this.programRepo.findOne({
+      where: { id },
+      relations: {
+        instructor: true,
+        lessons: true,
+      },
+    });
   }
 
-  update(id: number, updateProgramDto: UpdateProgramDto) {
-    return `This action updates a #${id} program`;
+  async update(id: string, updateProgramDto: UpdateProgramDto) {
+    const program = await this.programRepo.findOneBy({ id });
+    Object.assign(program, updateProgramDto);
+    return this.programRepo.save(program);
   }
 
   remove(id: string) {

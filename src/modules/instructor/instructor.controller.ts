@@ -1,7 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { InstructorService } from './instructor.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateInstructorDto } from './dto/create-instructor.dto';
 import { UpdateInstructorDto } from './dto/update-instructor.dto';
+import { InstructorService } from './instructor.service';
 
 @Controller('instructor')
 export class InstructorController {
@@ -13,22 +22,25 @@ export class InstructorController {
   }
 
   @Get()
-  findAll() {
-    return this.instructorService.findAll();
+  findAll(@Query('q') keyword: string) {
+    return this.instructorService.findAll(keyword);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.instructorService.findOne(+id);
+    return this.instructorService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInstructorDto: UpdateInstructorDto) {
-    return this.instructorService.update(+id, updateInstructorDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateInstructorDto: UpdateInstructorDto,
+  ) {
+    return this.instructorService.update(id, updateInstructorDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.instructorService.remove(+id);
+    return this.instructorService.remove(id);
   }
 }
