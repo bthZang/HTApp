@@ -5,7 +5,10 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { InstructorService } from 'src/modules/instructor/instructor.service';
 
 @Injectable()
-export class JwtInstructorStrategy extends PassportStrategy(Strategy) {
+export class JwtInstructorStrategy extends PassportStrategy(
+  Strategy,
+  'jwt-instructor',
+) {
   constructor(
     configService: ConfigService,
     private readonly instructorService: InstructorService,

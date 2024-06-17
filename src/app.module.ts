@@ -9,7 +9,7 @@ import { InstructorModule } from './modules/instructor/instructor.module';
 import { LessonModule } from './modules/lesson/lesson.module';
 import { ProgramModule } from './modules/program/program.module';
 import { StudentModule } from './modules/student/student.module';
-import { StudentLessonModule } from './student-lesson/student-lesson.module';
+import { StudentLessonModule } from './modules/student-lesson/student-lesson.module';
 
 @Module({
   imports: [

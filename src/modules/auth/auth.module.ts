@@ -7,6 +7,7 @@ import { StudentModule } from '../student/student.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStudentStrategy } from './strategies/jwt-student.strategy';
+import { JwtInstructorStrategy } from './strategies/jwt-instructor.strategy';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { JwtStudentStrategy } from './strategies/jwt-student.strategy';
     }),
     ConfigModule,
   ],
-  providers: [AuthService, JwtStudentStrategy],
+  providers: [AuthService, JwtInstructorStrategy, JwtStudentStrategy],
   controllers: [AuthController],
   exports: [AuthService],
 })

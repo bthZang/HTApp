@@ -29,7 +29,7 @@ export class AuthController {
   @Get('student/profile')
   @UseGuards(JwtStudentAuthGuard)
   profile(@Request() req: AuthenticatedStudentRequest) {
-    const student = req.student;
+    const student = req.user;
     return student;
   }
 

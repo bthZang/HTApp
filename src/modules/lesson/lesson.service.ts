@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
+import { StudentLessonService } from '../student-lesson/student-lesson.service';
+import { Student } from '../student/entities/student.entity';
 import { CreateLessonDto } from './dto/create-lesson.dto';
 import { CreateOffClassDto } from './dto/update-lesson-create-offclass.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
@@ -11,6 +13,7 @@ export class LessonService {
   constructor(
     @InjectRepository(Lesson)
     private readonly lessonRepo: Repository<Lesson>,
+    private readonly studentLessonService: StudentLessonService,
   ) {}
 
   async create(createLessonDto: CreateLessonDto) {
@@ -38,7 +41,9 @@ export class LessonService {
       relations: {
         program: true,
         comments: true,
-        studentLessons: true,
+        studentLessons: {
+          student: true,
+        },
       },
     });
   }
@@ -53,5 +58,15 @@ export class LessonService {
 
   remove(id: string) {
     return this.lessonRepo.softDelete({ id });
+  }
+
+  async joinLesson(student: Student, lessonId: string, isJoinOff: boolean) {
+    const lesson = await this.lessonRepo.findOneBy({ id: lessonId });
+    return this.studentLessonService.create(student, lesson, isJoinOff);
+  }
+
+  async leaveLesson(student: Student, lessonId: string) {
+    const lesson = await this.lessonRepo.findOneBy({ id: lessonId });
+    return this.studentLessonService.remove(student, lesson);
   }
 }

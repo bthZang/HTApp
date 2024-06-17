@@ -21,6 +21,11 @@ export class StudentController {
     return this.studentService.create(createStudentDto);
   }
 
+  @Post()
+  leaveLesson(@Body() createStudentDto: CreateStudentDto) {
+    return this.studentService.create(createStudentDto);
+  }
+
   @Get()
   findAll(@Query('q') keyword: string | null) {
     return this.studentService.findAll(keyword);

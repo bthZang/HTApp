@@ -1,6 +1,6 @@
 import { BaseEntity } from 'src/common/entities/base.entity';
 import { CommentEntity } from 'src/modules/comment/entities/comment.entity';
-import { StudentLesson } from 'src/student-lesson/entities/studentLesson.entity';
+import { StudentLesson } from 'src/modules/student-lesson/entities/studentLesson.entity';
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 
 @Entity({ name: 'students' })

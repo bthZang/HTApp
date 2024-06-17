@@ -1,17 +1,22 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
-import { LessonService } from './lesson.service';
+import { JwtStudentAuthGuard } from '../auth/guards/jwt-student-auth.guard';
+import { AuthenticatedStudentRequest } from '../auth/types/authenticated-student-request.type';
 import { CreateLessonDto } from './dto/create-lesson.dto';
-import { UpdateLessonDto } from './dto/update-lesson.dto';
+import { JoinLessonDto } from './dto/join-lesson.dto';
 import { CreateOffClassDto } from './dto/update-lesson-create-offclass.dto';
+import { UpdateLessonDto } from './dto/update-lesson.dto';
+import { LessonService } from './lesson.service';
 
 @Controller('lesson')
 export class LessonController {
@@ -20,6 +25,30 @@ export class LessonController {
   @Post()
   create(@Body() createLessonDto: CreateLessonDto) {
     return this.lessonService.create(createLessonDto);
+  }
+
+  @Post(':id/join')
+  @UseGuards(JwtStudentAuthGuard)
+  joinLesson(
+    @Param('id') lessonId: string,
+    @Body() options: JoinLessonDto,
+    @Request() request: AuthenticatedStudentRequest,
+  ) {
+    console.log(request, request.user);
+    return this.lessonService.joinLesson(
+      request.user,
+      lessonId,
+      options.isJoinOff,
+    );
+  }
+
+  @Post(':id/leave')
+  @UseGuards(JwtStudentAuthGuard)
+  leaveLesson(
+    @Param('id') lessonId: string,
+    @Request() request: AuthenticatedStudentRequest,
+  ) {
+    return this.lessonService.leaveLesson(request.user, lessonId);
   }
 
   @Get()

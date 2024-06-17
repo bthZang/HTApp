@@ -5,7 +5,10 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { StudentService } from 'src/modules/student/student.service';
 
 @Injectable()
-export class JwtStudentStrategy extends PassportStrategy(Strategy) {
+export class JwtStudentStrategy extends PassportStrategy(
+  Strategy,
+  'jwt-student',
+) {
   constructor(
     configService: ConfigService,
     private readonly studentService: StudentService,
@@ -20,6 +23,6 @@ export class JwtStudentStrategy extends PassportStrategy(Strategy) {
   async validate(payload: { sub: string; id: string }) {
     const user = await this.studentService.findOne(payload.id);
 
-    return { userId: payload.sub, ...user };
+    return { ...user };
   }
 }
