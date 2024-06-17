@@ -7,18 +7,26 @@ import {
   Patch,
   Post,
   Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateProgramDto } from './dto/create-program.dto';
 import { UpdateProgramDto } from './dto/update-program.dto';
 import { ProgramService } from './program.service';
+import { JwtInstructorAuthGuard } from '../auth/guards/jwt-instructor-auth.guard';
+import { AuthenticatedInstructorRequest } from '../auth/types/authenticated-instructor-request.type';
 
 @Controller('program')
 export class ProgramController {
   constructor(private readonly programService: ProgramService) {}
 
   @Post()
-  create(@Body() createProgramDto: CreateProgramDto) {
-    return this.programService.create(createProgramDto);
+  @UseGuards(JwtInstructorAuthGuard)
+  create(
+    @Body() createProgramDto: CreateProgramDto,
+    @Request() request: AuthenticatedInstructorRequest,
+  ) {
+    return this.programService.create(createProgramDto, request.user.id);
   }
 
   @Get()

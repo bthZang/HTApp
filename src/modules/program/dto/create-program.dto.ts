@@ -5,5 +5,4 @@ export class CreateProgramDto {
   introduce: string;
   goal: string;
   preparation: string;
-  instructorId: string;
 }

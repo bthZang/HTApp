@@ -12,8 +12,8 @@ export class ProgramService {
     private readonly programRepo: Repository<Program>,
   ) {}
 
-  async create(createProgramDto: CreateProgramDto) {
-    return await this.programRepo.save(createProgramDto);
+  async create(createProgramDto: CreateProgramDto, instructorId: string) {
+    return await this.programRepo.save({ ...createProgramDto, instructorId });
   }
 
   findAll(keyword: string) {

@@ -29,7 +29,7 @@ export class InstructorService {
   }
 
   findOne(id: string) {
-    return this.instructorRepo.find({
+    return this.instructorRepo.findOne({
       where: { id },
       relations: {},
     });
