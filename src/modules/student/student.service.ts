@@ -23,6 +23,10 @@ export class StudentService {
     });
   }
 
+  findByGoogleId(id: string) {
+    return this.studentRepo.findOneBy({ googleId: id });
+  }
+
   findOne(id: string) {
     return this.studentRepo.findOne({
       where: { id },

@@ -1,22 +1,18 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProgramModule } from './modules/program/program.module';
-import { LessonModule } from './modules/lesson/lesson.module';
-import { InstructorModule } from './modules/instructor/instructor.module';
-import { StudentModule } from './modules/student/student.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { AuthModule } from './modules/auth/auth.module';
 import { CommentModule } from './modules/comment/comment.module';
+import { InstructorModule } from './modules/instructor/instructor.module';
+import { LessonModule } from './modules/lesson/lesson.module';
+import { ProgramModule } from './modules/program/program.module';
+import { StudentModule } from './modules/student/student.module';
 import { StudentLessonModule } from './student-lesson/student-lesson.module';
 
 @Module({
   imports: [
-    ProgramModule,
-    LessonModule,
-    CommentModule,
-    InstructorModule,
-    StudentModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
@@ -35,6 +31,12 @@ import { StudentLessonModule } from './student-lesson/student-lesson.module';
         autoLoadEntities: true,
       }),
     }),
+    AuthModule,
+    ProgramModule,
+    LessonModule,
+    CommentModule,
+    InstructorModule,
+    StudentModule,
     StudentLessonModule,
   ],
   controllers: [AppController],
