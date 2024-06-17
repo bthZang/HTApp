@@ -34,7 +34,6 @@ export class LessonController {
     @Body() options: JoinLessonDto,
     @Request() request: AuthenticatedStudentRequest,
   ) {
-    console.log(request, request.user);
     return this.lessonService.joinLesson(
       request.user,
       lessonId,

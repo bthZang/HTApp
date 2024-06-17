@@ -66,7 +66,6 @@ export class LessonService {
   }
 
   async leaveLesson(student: Student, lessonId: string) {
-    const lesson = await this.lessonRepo.findOneBy({ id: lessonId });
-    return this.studentLessonService.remove(student, lesson);
+    return this.studentLessonService.remove(student, lessonId);
   }
 }

@@ -28,10 +28,12 @@ export class StudentLessonService {
     });
   }
 
-  async remove(student: Student, lesson: Lesson) {
+  async remove(student: Student, lessonId: string) {
     const studentLesson = await this.studentLessonRepo.findOneBy({
-      student,
-      lesson,
+      student: {
+        id: student.id,
+      },
+      lesson: { id: lessonId },
     });
     return await this.studentLessonRepo.remove(studentLesson);
   }
