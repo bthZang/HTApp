@@ -75,7 +75,9 @@ export class LessonService {
       where: { id },
       relations: {
         program: true,
-        comments: true,
+        comments: {
+          student: true,
+        },
         instructor: true,
         savedStudents: true,
         studentLessons: {
