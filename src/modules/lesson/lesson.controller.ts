@@ -87,6 +87,11 @@ export class LessonController {
     return this.lessonService.findToday();
   }
 
+  @Get('/date')
+  findByDate(@Query('date') date: string) {
+    return this.lessonService.findByDate(parseInt(date));
+  }
+
   @Get('own')
   @UseGuards(JwtStudentAuthGuard)
   findOwn(@Request() request: AuthenticatedStudentRequest) {

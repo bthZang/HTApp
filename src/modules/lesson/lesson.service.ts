@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, In, MoreThan, Repository } from 'typeorm';
+import { ILike, In, LessThan, MoreThan, Repository } from 'typeorm';
 import { StudentLessonService } from '../student-lesson/student-lesson.service';
 import { Student } from '../student/entities/student.entity';
 import { CreateLessonDto } from './dto/create-lesson.dto';
@@ -52,6 +52,22 @@ export class LessonService {
         createdAt: MoreThan(today),
       },
       relations: { program: true },
+    });
+  }
+
+  findByDate(dateNum: number) {
+    const startDate = new Date(dateNum);
+    startDate.setHours(0);
+    startDate.setMinutes(0);
+
+    const endDate = new Date(dateNum);
+    endDate.setHours(23);
+    endDate.setMinutes(59);
+
+    return this.lessonRepo.find({
+      where: { startDate: LessThan(endDate), endDate: MoreThan(startDate) },
+      relations: { program: true },
+      order: { createdAt: 'desc' },
     });
   }
 
