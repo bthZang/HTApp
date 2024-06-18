@@ -8,4 +8,5 @@ export class CreateLessonDto {
   instructorId: string;
   level!: string;
   category!: string;
+  address!: string; //for off class
 }

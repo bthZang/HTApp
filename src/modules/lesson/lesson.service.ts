@@ -58,6 +58,7 @@ export class LessonService {
     return this.lessonRepo.find({
       where: { studentLessons: { student: { id: studentId } } },
       relations: { program: true },
+      order: { createdAt: 'desc' },
     });
   }
 
@@ -74,6 +75,7 @@ export class LessonService {
       relations: {
         program: true,
         comments: true,
+        instructor: true,
         studentLessons: {
           student: true,
         },
