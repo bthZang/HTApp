@@ -32,6 +32,12 @@ export class Lesson extends BaseEntity {
   @Column({ nullable: true, type: 'varchar' })
   programId!: string;
 
+  @Column({ nullable: true, type: 'varchar' })
+  level!: string;
+
+  @Column({ nullable: true, type: 'varchar' })
+  category!: string;
+
   @Column({ nullable: true, type: 'int' })
   timeDuring!: number;
 

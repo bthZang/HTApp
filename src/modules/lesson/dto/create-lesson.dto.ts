@@ -6,4 +6,6 @@ export class CreateLessonDto {
   programId!: string;
   timeDuring!: number;
   instructorId: string;
+  level!: string;
+  category!: string;
 }
