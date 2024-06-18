@@ -18,6 +18,9 @@ export class Program extends BaseEntity {
   introduce!: string; //mo ta, gioi thieu khoa hoc
 
   @Column({ nullable: true, type: 'varchar' })
+  image_link!: string;
+
+  @Column({ nullable: true, type: 'varchar' })
   goal!: string; //khoa hoc nay se day ve gi
 
   @Column({ nullable: true, type: 'varchar' })

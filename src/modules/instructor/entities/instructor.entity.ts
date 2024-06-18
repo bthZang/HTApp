@@ -22,6 +22,9 @@ export class Instructor extends BaseEntity {
   @Column({ nullable: true, type: 'varchar' })
   introduce!: string;
 
+  @Column({ nullable: true, type: 'varchar' })
+  imageUrl!: string;
+
   @OneToMany(() => Program, (program) => program.instructor, { cascade: true })
   programs: Program[];
 }

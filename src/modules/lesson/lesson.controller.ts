@@ -41,6 +41,15 @@ export class LessonController {
     );
   }
 
+  @Post(':id/save')
+  @UseGuards(JwtStudentAuthGuard)
+  saveLesson(
+    @Param('id') lessonId: string,
+    @Request() request: AuthenticatedStudentRequest,
+  ) {
+    return this.lessonService.saveLesson(request.user, lessonId);
+  }
+
   @Post(':id/leave')
   @UseGuards(JwtStudentAuthGuard)
   leaveLesson(
@@ -48,6 +57,15 @@ export class LessonController {
     @Request() request: AuthenticatedStudentRequest,
   ) {
     return this.lessonService.leaveLesson(request.user, lessonId);
+  }
+
+  @Post(':id/unsave')
+  @UseGuards(JwtStudentAuthGuard)
+  unsaveLesson(
+    @Param('id') lessonId: string,
+    @Request() request: AuthenticatedStudentRequest,
+  ) {
+    return this.lessonService.unsaveLesson(request.user, lessonId);
   }
 
   @Get()

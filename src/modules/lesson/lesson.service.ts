@@ -75,4 +75,28 @@ export class LessonService {
   async leaveLesson(student: Student, lessonId: string) {
     return this.studentLessonService.remove(student, lessonId);
   }
+
+  async saveLesson(student: Student, lessonId: string) {
+    const lesson = await this.lessonRepo.findOne({
+      where: { id: lessonId },
+      relations: {
+        savedStudents: true,
+      },
+    });
+    lesson.savedStudents.push(student);
+    return await this.lessonRepo.save(lesson);
+  }
+
+  async unsaveLesson(student: Student, lessonId: string) {
+    const lesson = await this.lessonRepo.findOne({
+      where: { id: lessonId },
+      relations: {
+        savedStudents: true,
+      },
+    });
+    lesson.savedStudents = lesson.savedStudents.filter(
+      (s) => s.id != student.id,
+    );
+    return await this.lessonRepo.save(lesson);
+  }
 }

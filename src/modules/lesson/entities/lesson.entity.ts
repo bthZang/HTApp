@@ -2,7 +2,8 @@ import { BaseEntity } from 'src/common/entities/base.entity';
 import { CommentEntity } from 'src/modules/comment/entities/comment.entity';
 import { Program } from 'src/modules/program/entities/program.entity';
 import { StudentLesson } from 'src/modules/student-lesson/entities/studentLesson.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Student } from 'src/modules/student/entities/student.entity';
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({ name: 'lessons' })
 export class Lesson extends BaseEntity {
@@ -39,4 +40,7 @@ export class Lesson extends BaseEntity {
     cascade: true,
   })
   studentLessons: StudentLesson[];
+
+  @ManyToMany(() => Student, (student) => student.savedLessons)
+  savedStudents: Student[];
 }
