@@ -2,14 +2,7 @@ import { BaseEntity } from 'src/common/entities/base.entity';
 import { CommentEntity } from 'src/modules/comment/entities/comment.entity';
 import { Lesson } from 'src/modules/lesson/entities/lesson.entity';
 import { StudentLesson } from 'src/modules/student-lesson/entities/studentLesson.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-} from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 
 @Entity({ name: 'students' })
 export class Student extends BaseEntity {
@@ -32,6 +25,6 @@ export class Student extends BaseEntity {
   studentLessons: StudentLesson[];
 
   @ManyToMany(() => Lesson, (lesson) => lesson.savedStudents)
-  @JoinColumn()
+  @JoinTable()
   savedLessons: Lesson[];
 }

@@ -100,8 +100,12 @@ export class LessonController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.lessonService.findOne(id);
+  @UseGuards(JwtStudentAuthGuard)
+  findOne(
+    @Param('id') id: string,
+    @Request() request: AuthenticatedStudentRequest,
+  ) {
+    return this.lessonService.findOne(id, request.user.id);
   }
 
   @Post('/:id/offclass')

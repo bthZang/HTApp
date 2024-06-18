@@ -70,18 +70,26 @@ export class LessonService {
     });
   }
 
-  findOne(id: string) {
-    return this.lessonRepo.findOne({
+  async findOne(id: string, studentId: string) {
+    const lesson = await this.lessonRepo.findOne({
       where: { id },
       relations: {
         program: true,
         comments: true,
         instructor: true,
+        savedStudents: true,
         studentLessons: {
           student: true,
         },
       },
     });
+    return {
+      ...lesson,
+      isSaved: lesson.savedStudents.some((student) => student.id === studentId),
+      isJoined: lesson.studentLessons.some(
+        (studentLesson) => studentLesson.student.id === studentId,
+      ),
+    };
   }
 
   async update(id: string, updateLessonDto: UpdateLessonDto) {
