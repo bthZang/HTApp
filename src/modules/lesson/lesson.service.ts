@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { ILike, MoreThan, Repository } from 'typeorm';
 import { StudentLessonService } from '../student-lesson/student-lesson.service';
 import { Student } from '../student/entities/student.entity';
 import { CreateLessonDto } from './dto/create-lesson.dto';
@@ -35,9 +35,29 @@ export class LessonService {
     });
   }
 
+  findToday() {
+    const today = new Date();
+    today.setHours(0);
+    today.setMinutes(0);
+
+    return this.lessonRepo.find({
+      where: {
+        createdAt: MoreThan(today),
+      },
+      relations: { program: true },
+    });
+  }
+
   findOwn(studentId: string) {
     return this.lessonRepo.find({
       where: { studentLessons: { student: { id: studentId } } },
+      relations: { program: true },
+    });
+  }
+
+  findSaved(studentId: string) {
+    return this.lessonRepo.find({
+      where: { savedStudents: { id: studentId } },
       relations: { program: true },
     });
   }

@@ -73,10 +73,21 @@ export class LessonController {
     return this.lessonService.findAll(keyword);
   }
 
+  @Get('today')
+  findToday() {
+    return this.lessonService.findToday();
+  }
+
   @Get('own')
   @UseGuards(JwtStudentAuthGuard)
   findOwn(@Request() request: AuthenticatedStudentRequest) {
     return this.lessonService.findOwn(request.user.id);
+  }
+
+  @Get('saved')
+  @UseGuards(JwtStudentAuthGuard)
+  findSaved(@Request() request: AuthenticatedStudentRequest) {
+    return this.lessonService.findSaved(request.user.id);
   }
 
   @Get(':id')

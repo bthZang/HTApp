@@ -28,6 +28,9 @@ export class Lesson extends BaseEntity {
   @Column({ nullable: true, type: 'varchar' })
   programId!: string;
 
+  @Column({ nullable: true, type: 'int' })
+  timeDuring!: number;
+
   @ManyToOne(() => Program)
   program: Program;
 

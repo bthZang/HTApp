@@ -3,4 +3,5 @@ export class CreateLessonDto {
   description!: string;
   videoUrl!: string;
   programId!: string;
+  timeDuring!: number;
 }
