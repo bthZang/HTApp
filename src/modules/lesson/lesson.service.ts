@@ -28,9 +28,9 @@ export class LessonService {
     return await this.lessonRepo.save(lesson);
   }
 
-  findAll(keyword: string) {
+  findAll(keyword: string, category?: string) {
     return this.lessonRepo.find({
-      where: { name: ILike(`%${keyword || ''}%`) },
+      where: { name: ILike(`%${keyword || ''}%`), category: category },
       relations: { program: true, instructor: true },
       order: { createdAt: 'desc' },
     });
@@ -63,6 +63,14 @@ export class LessonService {
     });
   }
 
+  findByCategory(category: string) {
+    return this.lessonRepo.find({
+      where: { category },
+      relations: { program: true },
+      order: { createdAt: 'desc' },
+    });
+  }
+
   findSaved(studentId: string) {
     return this.lessonRepo.find({
       where: { savedStudents: { id: studentId } },
@@ -90,6 +98,10 @@ export class LessonService {
       isSaved: lesson.savedStudents.some((student) => student.id === studentId),
       isJoined: lesson.studentLessons.some(
         (studentLesson) => studentLesson.student.id === studentId,
+      ),
+      isJoinOff: lesson.studentLessons.some(
+        (studentLesson) =>
+          studentLesson.student.id === studentId && studentLesson.isJoinOff,
       ),
     };
   }

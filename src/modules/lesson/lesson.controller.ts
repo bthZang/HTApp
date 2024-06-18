@@ -78,8 +78,8 @@ export class LessonController {
   }
 
   @Get()
-  findAll(@Query('q') keyword: string) {
-    return this.lessonService.findAll(keyword);
+  findAll(@Query('q') keyword: string, @Query('category') category?: string) {
+    return this.lessonService.findAll(keyword, category);
   }
 
   @Get('today')

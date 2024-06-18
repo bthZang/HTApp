@@ -5,7 +5,7 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'student_lessons' })
 export class StudentLesson extends BaseEntity {
-  @Column({ nullable: true, type: 'boolean' })
+  @Column({ nullable: true, type: 'boolean', default: false })
   isJoinOff!: boolean;
 
   @ManyToOne(() => Student)
