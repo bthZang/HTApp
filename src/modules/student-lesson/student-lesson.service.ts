@@ -14,8 +14,12 @@ export class StudentLessonService {
 
   async create(student: Student, lesson: Lesson, isJoinOff: boolean) {
     const studentLesson = await this.studentLessonRepo.findOneBy({
-      student,
-      lesson,
+      student: {
+        id: student.id,
+      },
+      lesson: {
+        id: lesson.id,
+      },
     });
     if (studentLesson) {
       await this.studentLessonRepo.remove(studentLesson);
