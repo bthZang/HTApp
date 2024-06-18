@@ -22,7 +22,7 @@ export class Student extends BaseEntity {
   @Column({ nullable: true, type: 'varchar' })
   googleId!: string;
 
-  @ManyToMany(() => CommentEntity, (comment) => comment.students)
+  @ManyToMany(() => CommentEntity, (comment) => comment.student)
   @JoinTable()
   comments: CommentEntity[];
 

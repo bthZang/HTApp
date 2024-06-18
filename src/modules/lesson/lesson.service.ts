@@ -31,7 +31,8 @@ export class LessonService {
   findAll(keyword: string) {
     return this.lessonRepo.find({
       where: { name: ILike(`%${keyword || ''}%`) },
-      relations: { program: true },
+      relations: { program: true, instructor: true },
+      order: { createdAt: 'desc' },
     });
   }
 

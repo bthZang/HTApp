@@ -1,1 +1,5 @@
-export class CreateCommentDto {}
+export class CreateCommentDto {
+  content: string;
+  studentId: string;
+  lessonId: string;
+}
