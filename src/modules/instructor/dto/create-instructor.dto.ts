@@ -6,4 +6,5 @@ export class CreateInstructorDto {
   password!: string;
   introduce!: string;
   imageUrl: string;
+  prizes!: string;
 }

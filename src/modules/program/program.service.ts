@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
+import { LessonService } from '../lesson/lesson.service';
 import { CreateProgramDto } from './dto/create-program.dto';
 import { UpdateProgramDto } from './dto/update-program.dto';
 import { Program } from './entities/program.entity';
-import { LessonService } from '../lesson/lesson.service';
 
 @Injectable()
 export class ProgramService {
@@ -28,6 +28,9 @@ export class ProgramService {
   findAll(keyword: string) {
     return this.programRepo.find({
       where: { name: ILike(`%${keyword || ''}%`) },
+      order: {
+        createdAt: 'DESC',
+      },
       relations: {
         instructor: true,
         lessons: true,
