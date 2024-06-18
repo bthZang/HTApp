@@ -4,16 +4,25 @@ import { ILike, Repository } from 'typeorm';
 import { CreateProgramDto } from './dto/create-program.dto';
 import { UpdateProgramDto } from './dto/update-program.dto';
 import { Program } from './entities/program.entity';
+import { LessonService } from '../lesson/lesson.service';
 
 @Injectable()
 export class ProgramService {
   constructor(
     @InjectRepository(Program)
     private readonly programRepo: Repository<Program>,
+    private readonly lessonService: LessonService,
   ) {}
 
   async create(createProgramDto: CreateProgramDto, instructorId: string) {
-    return await this.programRepo.save({ ...createProgramDto, instructorId });
+    const lessons = await this.lessonService.findByIds(
+      createProgramDto.lessonIds,
+    );
+    return await this.programRepo.save({
+      ...createProgramDto,
+      lessons,
+      instructorId,
+    });
   }
 
   findAll(keyword: string) {

@@ -1,4 +1,5 @@
 import { BaseEntity } from 'src/common/entities/base.entity';
+import { Lesson } from 'src/modules/lesson/entities/lesson.entity';
 import { Program } from 'src/modules/program/entities/program.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 
@@ -27,4 +28,7 @@ export class Instructor extends BaseEntity {
 
   @OneToMany(() => Program, (program) => program.instructor, { cascade: true })
   programs: Program[];
+
+  @OneToMany(() => Lesson, (lesson) => lesson.instructor, { cascade: true })
+  lessons: Lesson[];
 }

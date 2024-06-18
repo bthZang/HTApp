@@ -6,4 +6,7 @@ export class CreateProgramDto {
   goal: string;
   preparation: string;
   image_link!: string;
+  learn!: string;
+  need!: string;
+  lessonIds: string[];
 }

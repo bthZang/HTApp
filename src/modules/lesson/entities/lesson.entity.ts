@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/common/entities/base.entity';
 import { CommentEntity } from 'src/modules/comment/entities/comment.entity';
+import { Instructor } from 'src/modules/instructor/entities/instructor.entity';
 import { Program } from 'src/modules/program/entities/program.entity';
 import { StudentLesson } from 'src/modules/student-lesson/entities/studentLesson.entity';
 import { Student } from 'src/modules/student/entities/student.entity';
@@ -15,6 +16,9 @@ export class Lesson extends BaseEntity {
 
   @Column({ nullable: true, type: 'varchar' })
   videoUrl!: string;
+
+  @Column({ nullable: true, type: 'varchar' })
+  imageUrl!: string;
 
   @Column({ nullable: true, type: 'varchar' })
   address!: string; //for off class
@@ -46,4 +50,10 @@ export class Lesson extends BaseEntity {
 
   @ManyToMany(() => Student, (student) => student.savedLessons)
   savedStudents: Student[];
+
+  @Column({ nullable: true })
+  instructorId!: string;
+
+  @ManyToOne(() => Instructor)
+  instructor: Instructor;
 }

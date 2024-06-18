@@ -47,13 +47,14 @@ export class AuthController {
 
   @Post('instructor/login')
   async registerInstructor(@Body() authDto: InstructorAuthDto) {
-    const instructor = await this.instructorService.findByUsername(
+    const instructor = await this.instructorService.findByEmail(
       authDto.username,
     );
 
     if (await bcrypt.compare(authDto.password, instructor.password)) {
       return {
-        access_token: this.authService.generateInstructorToken(instructor),
+        ...this.authService.generateInstructorToken(instructor),
+        ...instructor,
         name: instructor.name,
         photoUrl: instructor.imageUrl,
       };

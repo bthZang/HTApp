@@ -31,12 +31,18 @@ export class InstructorService {
   findOne(id: string) {
     return this.instructorRepo.findOne({
       where: { id },
-      relations: {},
+      relations: {
+        lessons: true,
+        programs: {
+          lessons: true,
+          instructor: true,
+        },
+      },
     });
   }
 
-  findByUsername(username: string) {
-    return this.instructorRepo.findOneBy({ username });
+  findByEmail(email: string) {
+    return this.instructorRepo.findOneBy({ email });
   }
 
   async update(id: string, updateInstructorDto: UpdateInstructorDto) {

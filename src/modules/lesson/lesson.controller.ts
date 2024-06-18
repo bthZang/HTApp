@@ -17,14 +17,23 @@ import { JoinLessonDto } from './dto/join-lesson.dto';
 import { CreateOffClassDto } from './dto/update-lesson-create-offclass.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
 import { LessonService } from './lesson.service';
+import { JwtInstructorAuthGuard } from '../auth/guards/jwt-instructor-auth.guard';
+import { AuthenticatedInstructorRequest } from '../auth/types/authenticated-instructor-request.type';
 
 @Controller('lesson')
 export class LessonController {
   constructor(private readonly lessonService: LessonService) {}
 
   @Post()
-  create(@Body() createLessonDto: CreateLessonDto) {
-    return this.lessonService.create(createLessonDto);
+  @UseGuards(JwtInstructorAuthGuard)
+  create(
+    @Body() createLessonDto: CreateLessonDto,
+    @Request() request: AuthenticatedInstructorRequest,
+  ) {
+    return this.lessonService.create({
+      ...createLessonDto,
+      instructorId: request.user.id,
+    });
   }
 
   @Post(':id/join')

@@ -15,6 +15,12 @@ export class Program extends BaseEntity {
   category!: string;
 
   @Column({ nullable: true, type: 'varchar' })
+  learn!: string;
+
+  @Column({ nullable: true, type: 'varchar' })
+  need!: string;
+
+  @Column({ nullable: true, type: 'varchar' })
   introduce!: string; //mo ta, gioi thieu khoa hoc
 
   @Column({ nullable: true, type: 'varchar' })

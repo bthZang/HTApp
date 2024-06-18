@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, MoreThan, Repository } from 'typeorm';
+import { ILike, In, MoreThan, Repository } from 'typeorm';
 import { StudentLessonService } from '../student-lesson/student-lesson.service';
 import { Student } from '../student/entities/student.entity';
 import { CreateLessonDto } from './dto/create-lesson.dto';
@@ -32,6 +32,12 @@ export class LessonService {
     return this.lessonRepo.find({
       where: { name: ILike(`%${keyword || ''}%`) },
       relations: { program: true },
+    });
+  }
+
+  findByIds(ids: string[]) {
+    return this.lessonRepo.findBy({
+      id: In(ids),
     });
   }
 
