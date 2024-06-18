@@ -55,7 +55,7 @@ export class LessonService {
     });
   }
 
-  findByDate(dateNum: number) {
+  findByDate(dateNum: number, studentId: string) {
     const startDate = new Date(dateNum);
     startDate.setHours(0);
     startDate.setMinutes(0);
@@ -65,8 +65,30 @@ export class LessonService {
     endDate.setMinutes(59);
 
     return this.lessonRepo.find({
-      where: { startDate: LessThan(endDate), endDate: MoreThan(startDate) },
+      where: {
+        startDate: LessThan(endDate),
+        endDate: MoreThan(startDate),
+        studentLessons: {
+          isJoinOff: true,
+          student: { id: studentId },
+        },
+      },
       relations: { program: true },
+      order: { createdAt: 'desc' },
+    });
+  }
+
+  findOffline(instructorId: string) {
+    return this.lessonRepo.find({
+      where: {
+        studentLessons: { isJoinOff: true },
+        instructor: { id: instructorId },
+      },
+      relations: {
+        program: true,
+        instructor: true,
+        studentLessons: { student: true },
+      },
       order: { createdAt: 'desc' },
     });
   }

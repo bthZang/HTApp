@@ -88,8 +88,18 @@ export class LessonController {
   }
 
   @Get('/date')
-  findByDate(@Query('date') date: string) {
-    return this.lessonService.findByDate(parseInt(date));
+  @UseGuards(JwtStudentAuthGuard)
+  findByDate(
+    @Query('date') date: string,
+    @Request() request: AuthenticatedStudentRequest,
+  ) {
+    return this.lessonService.findByDate(parseInt(date), request.user.id);
+  }
+
+  @Get('offline')
+  @UseGuards(JwtInstructorAuthGuard)
+  findOffline(@Request() request: AuthenticatedInstructorRequest) {
+    return this.lessonService.findOffline(request.user.id);
   }
 
   @Get('own')
