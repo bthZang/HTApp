@@ -1,6 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, In, LessThan, MoreThan, Repository } from 'typeorm';
+import {
+  ILike,
+  In,
+  IsNull,
+  LessThan,
+  MoreThan,
+  Not,
+  Repository,
+} from 'typeorm';
 import { StudentLessonService } from '../student-lesson/student-lesson.service';
 import { Student } from '../student/entities/student.entity';
 import { CreateLessonDto } from './dto/create-lesson.dto';
@@ -81,7 +89,7 @@ export class LessonService {
   findOffline(instructorId: string) {
     return this.lessonRepo.find({
       where: {
-        studentLessons: { isJoinOff: true },
+        address: Not(IsNull()),
         instructor: { id: instructorId },
       },
       relations: {
